@@ -19,7 +19,6 @@ function layerFactory(L) {
         },
 
         redraw: function () {
-
             this._redraw(true);
         },
 
@@ -123,6 +122,8 @@ function layerFactory(L) {
 
             if (this.options.pane) this.getPane().appendChild(this._canvas);
             else map._panes.overlayPane.appendChild(this._canvas);
+
+            this._setPosition();
 
             map.on('moveend', this._reset, this);
             map.on('resize',this._reset,this);
@@ -267,7 +268,7 @@ function layerFactory(L) {
             );
         },
 
-        _reset: function () {
+        _setPosition: function () {            
 
             var topLeft = this._map.containerPointToLayerPoint([0, 0]);
             L.DomUtil.setPosition(this._canvas, topLeft);
@@ -276,6 +277,10 @@ function layerFactory(L) {
 
             this._canvas.width = size.x;
             this._canvas.height = size.y;
+        },
+
+        _reset: function () {
+            this._setPosition();
 
             this._redraw();
         },
