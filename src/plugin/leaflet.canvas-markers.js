@@ -258,7 +258,8 @@ function layerFactory(L) {
         _drawImage: function (marker, pointPos) {
 
             var options = marker.options.icon.options;
-
+            this._context.save();
+            this._context.globalAlpha = marker.options.opacity || 1;
             this._context.drawImage(
                 marker.canvas_img,
                 pointPos.x - options.iconAnchor[0],
@@ -266,9 +267,10 @@ function layerFactory(L) {
                 options.iconSize[0],
                 options.iconSize[1]
             );
+            this._context.restore();
         },
 
-        _setPosition: function () {            
+        _setPosition: function () {
 
             var topLeft = this._map.containerPointToLayerPoint([0, 0]);
             L.DomUtil.setPosition(this._canvas, topLeft);
